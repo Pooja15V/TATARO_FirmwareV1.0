@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>tataro_packages</name>
+  <version>1.0.0</version>
+  <description>TATARO integrated launch and perception packages</description>
+  <maintainer email="thamizpooja1514@gmail.com">Pooja</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>ros2launch</exec_depend>
+  <exec_depend>realsense2_camera</exec_depend>
+  <exec_depend>xarm_moveit_config</exec_depend>
+  <exec_depend>easy_handeye2</exec_depend>
+  <exec_depend>aruco_ros</exec_depend>
+  <exec_depend>image_view</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

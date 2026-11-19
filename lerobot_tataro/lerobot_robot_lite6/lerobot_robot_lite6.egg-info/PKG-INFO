@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: lerobot_robot_lite6
+Version: 0.1.0
+Summary: LeRobot robot plugin for the TATARO UFactory Lite6 + Gripper Lite (Cartesian control)
+Requires-Python: >=3.12
+Requires-Dist: lerobot
+Requires-Dist: xarm-python-sdk
+Requires-Dist: scipy
+Requires-Dist: numpy

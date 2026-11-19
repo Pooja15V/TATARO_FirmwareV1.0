@@ -1,0 +1,223 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="tataro_environment">
+
+  <!-- ============================================================ -->
+  <!-- TATARO REHABILITATION WORKSTATION ENVIRONMENT                -->
+  <!-- ============================================================ -->
+  <!--
+    Complete URDF/Xacro description of the rehabilitation workstation
+    including table, mounting plate, and fiducial marker.
+
+    Reference frame: link_base (robot base)
+    - X: forward (toward far edge of table)
+    - Y: right side
+    - Z: upward
+  -->
+
+  <!-- ============================================================ -->
+  <!-- WORKSTATION TABLE                                             -->
+  <!-- ============================================================ -->
+  <!--
+    Square tabletop: 0.85m x 0.85m x 0.02m thickness
+    Table surface: z = -0.005m
+    Table center: (0.335, 0.0, -0.005)
+  -->
+
+  <xacro:macro name="workstation_table">
+    <link name="table_link">
+      <inertial>
+        <mass>50.0</mass>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia
+          ixx="3.542" ixy="0" ixz="0"
+          iyy="3.542" iyz="0"
+          izz="7.083"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.85 0.85 0.02"/>
+        </geometry>
+        <material name="wood_laminate">
+          <color rgba="0.85 0.75 0.55 1.0"/>
+        </material>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.85 0.85 0.02"/>
+        </geometry>
+        <contact_coefficients mu="0.6" mu2="0.6" kp="1000.0" kd="100.0" split_margin="0.002"/>
+      </collision>
+    </link>
+
+    <!-- Table frame - on table surface -->
+    <link name="table_frame_link">
+      <inertial>
+        <mass>0.01</mass>
+        <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+      </inertial>
+    </link>
+
+    <joint name="table_base_joint" type="fixed">
+      <origin xyz="0.335 0.0 -0.005" rpy="0 0 0"/>
+      <parent link="link_base"/>
+      <child link="table_link"/>
+    </joint>
+
+    <joint name="table_frame_joint" type="fixed">
+      <origin xyz="0.335 0.0 0.005" rpy="0 0 0"/>
+      <parent link="link_base"/>
+      <child link="table_frame_link"/>
+    </joint>
+  </xacro:macro>
+
+  <!-- ============================================================ -->
+  <!-- STEEL MOUNTING PLATE                                          -->
+  <!-- ============================================================ -->
+  <!--
+    Dimensions: 0.19m x 0.12m x 0.005m
+    Bottom face: z = -0.005m (on table)
+    Top face: z = 0.000m (robot base)
+    Centered on table
+  -->
+
+  <xacro:macro name="mounting_plate">
+    <link name="mount_plate_link">
+      <inertial>
+        <mass>5.0</mass>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia
+          ixx="0.005" ixy="0" ixz="0"
+          iyy="0.007" iyz="0"
+          izz="0.012"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.19 0.12 0.005"/>
+        </geometry>
+        <material name="steel_plate">
+          <color rgba="0.3 0.3 0.3 1.0"/>
+        </material>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.19 0.12 0.005"/>
+        </geometry>
+        <contact_coefficients mu="0.7" mu2="0.7" kp="1500.0" kd="100.0" split_margin="0.001"/>
+      </collision>
+    </link>
+
+    <!-- Mount plate surface frame -->
+    <link name="mount_plate_frame_link">
+      <inertial>
+        <mass>0.01</mass>
+        <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+      </inertial>
+    </link>
+
+    <joint name="mount_plate_base_joint" type="fixed">
+      <origin xyz="0.335 0.0 -0.0075" rpy="0 0 0"/>
+      <parent link="link_base"/>
+      <child link="mount_plate_link"/>
+    </joint>
+
+    <joint name="mount_plate_frame_joint" type="fixed">
+      <origin xyz="0.335 0.0 0.0" rpy="0 0 0"/>
+      <parent link="link_base"/>
+      <child link="mount_plate_frame_link"/>
+    </joint>
+  </xacro:macro>
+
+  <!-- ============================================================ -->
+  <!-- ARUCO FIDUCIAL MARKER                                          -->
+  <!-- ============================================================ -->
+  <!--
+    ArUco Dict4x4, ID: 0
+    Dimensions: 0.15m x 0.15m
+    Position: on table surface (z = -0.005m)
+    Initial: center of table
+  -->
+
+  <xacro:macro name="aruco_marker">
+    <link name="marker_link">
+      <inertial>
+        <mass>0.05</mass>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia
+          ixx="0.0001875" ixy="0" ixz="0"
+          iyy="0.0001875" iyz="0"
+          izz="0.000375"/>
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.15 0.15 0.001"/>
+        </geometry>
+        <material name="marker_white">
+          <color rgba="1.0 1.0 1.0 1.0"/>
+        </material>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.15 0.15 0.001"/>
+        </geometry>
+        <contact_coefficients mu="0.3" mu2="0.3" kp="500.0" kd="50.0" split_margin="0.0001"/>
+      </collision>
+    </link>
+
+    <!-- Marker reference frame -->
+    <link name="marker_frame_link">
+      <inertial>
+        <mass>0.01</mass>
+        <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+      </inertial>
+    </link>
+
+    <!-- Initial pose: center of table at z = -0.005m -->
+    <joint name="marker_base_joint" type="floating">
+      <origin xyz="0.335 0.0 -0.0045" rpy="0 0 0"/>
+      <parent link="link_base"/>
+      <child link="marker_link"/>
+    </joint>
+
+    <joint name="marker_frame_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="marker_link"/>
+      <child link="marker_frame_link"/>
+    </joint>
+  </xacro:macro>
+
+  <!-- ============================================================ -->
+  <!-- DUMMY BASE LINK                                               -->
+  <!-- ============================================================ -->
+  <!--
+    This URDF defines the environment relative to link_base
+    The robot URDF will define link_base
+  -->
+
+  <link name="link_base">
+    <inertial>
+      <mass>0.001</mass>
+      <inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001"/>
+    </inertial>
+  </link>
+
+  <!-- ============================================================ -->
+  <!-- INSTANTIATE MACROS                                            -->
+  <!-- ============================================================ -->
+
+  <xacro:workstation_table/>
+  <xacro:mounting_plate/>
+  <xacro:aruco_marker/>
+
+</robot>

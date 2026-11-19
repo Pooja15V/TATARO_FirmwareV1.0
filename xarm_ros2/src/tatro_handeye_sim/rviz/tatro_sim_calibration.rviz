@@ -1,0 +1,237 @@
+Panels:
+  - Class: rviz_common/Displays
+    Help Height: 78
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /TATRO Workspace Markers1
+        - /TF1
+        - /Camera Feed (D435i sim)1
+      Splitter Ratio: 0.5
+    Tree Height: 580
+  - Class: rviz_common/Selection
+    Name: Selection
+  - Class: rviz_common/Tool Properties
+    Name: Tool Properties
+    Splitter Ratio: 0.5886790156364441
+  - Class: rviz_common/Views
+    Expanded:
+      - /Current View1
+    Name: Views
+    Splitter Ratio: 0.5
+
+Visualization Manager:
+  Class: ""
+  Displays:
+    # ── Ground grid (10 cm cells centred on table) ────────────────────────
+    - Alpha: 0.35
+      Cell Size: 0.1
+      Class: rviz_default_plugins/Grid
+      Color: 110; 110; 120
+      Enabled: true
+      Line Style:
+        Line Width: 0.02
+        Value: Lines
+      Name: Grid (10 cm)
+      Normal Cell Count: 0
+      Offset:
+        X: 0.335
+        Y: 0
+        Z: -0.005
+      Plane: XY
+      Plane Cell Count: 9
+      Reference Frame: link_base
+      Value: true
+
+    # ── TF tree ─────────────────────────────────────────────────────────
+    - Class: rviz_default_plugins/TF
+      Enabled: true
+      Frame Timeout: 15
+      Frames:
+        All Enabled: false
+        aruco_marker_frame:
+          Value: true
+        camera_color_frame:
+          Value: true
+        camera_color_optical_frame:
+          Value: true
+        camera_link:
+          Value: true
+        link_base:
+          Value: true
+        link_eef:
+          Value: true
+        link_tcp:
+          Value: true
+        table_frame:
+          Value: true
+        world:
+          Value: true
+      Marker Scale: 0.12
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Update Interval: 0
+      Value: true
+
+    # ── Robot model ──────────────────────────────────────────────────────
+    - Alpha: 1
+      Class: rviz_default_plugins/RobotModel
+      Collision Enabled: false
+      Description Source: Topic
+      Description Topic: /robot_description
+      Enabled: true
+      Name: Robot Model
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+
+    # ── TATRO workspace boundary markers ─────────────────────────────────
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: TATRO Workspace Markers
+      Namespaces:
+        table_boundary: true
+        table_corners: true
+        corner_labels: true
+        robot_base_axes: true
+        axis_labels: true
+        table_surface: true
+        workspace_label: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /tatro_workspace/markers
+      Value: true
+
+    # ── ArUco marker pose (arrow from camera_optical_frame to aruco_marker_frame) ──
+    - Class: rviz_default_plugins/Marker
+      Enabled: true
+      Name: ArUco Marker Pose
+      Namespaces: {}
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /aruco_single/pose
+      Value: true
+
+    # ── Simulated RealSense D435i colour image ────────────────────────────
+    - Class: rviz_default_plugins/Image
+      Enabled: true
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Camera Feed (D435i sim)
+      Normalize Range: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /camera/color/image_raw
+      Value: true
+
+    # ── MoveIt2 planned path ──────────────────────────────────────────────
+    - Class: moveit_rviz_plugin/MotionPlanning
+      Enabled: true
+      Move Group Namespace: ""
+      MoveIt Config:
+        Planner:
+          Goal Joint Tolerance: 0.0001
+          Goal Position Tolerance: 0.0001
+          Goal Orientation Tolerance: 0.001
+          Planning Time: 5.0
+          Num Planning Attempts: 5
+        Trajectory Visualization:
+          Loop Animation: false
+          Show Robot Visual: true
+          State Display Time: 0.05
+      Name: Motion Planning
+      Robot Description: robot_description
+      Value: true
+
+    # ── Planning scene (table collision object) ───────────────────────────
+    - Class: moveit_rviz_plugin/PlanningScene
+      Enabled: true
+      Name: Planning Scene
+      Value: true
+
+  Enabled: true
+  Global Options:
+    Background Color: 26; 26; 30
+    Fixed Frame: link_base
+    Frame Rate: 30
+
+  Name: root
+  Tools:
+    - Class: rviz_default_plugins/Interact
+      Hide Inactive Objects: true
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+    - Class: rviz_default_plugins/Measure
+      Line color: 128; 128; 0
+    - Class: rviz_default_plugins/PublishPoint
+      Single click: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /clicked_point
+
+  Value: true
+  Views:
+    Current:
+      # Orbit: front-left of robot, 30 deg elevation, 1.8 m distance
+      Class: rviz_default_plugins/Orbit
+      Distance: 1.8
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.06
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Focal Point:
+        X: 0.33
+        Y: 0
+        Z: -0.005
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.05
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.009999999776482582
+      Pitch: 0.5
+      Target Frame: link_base
+      Value: Orbit (rviz)
+      Yaw: 3.7
+    Saved: ~
+
+Window Geometry:
+  Camera Feed (D435i sim):
+    collapsed: false
+  Displays:
+    collapsed: false
+  Height: 1000
+  Hide Left Dock: false
+  Hide Right Dock: false
+  Motion Planning:
+    collapsed: false
+  Selection:
+    collapsed: false
+  Tool Properties:
+    collapsed: false
+  Views:
+    collapsed: false
+  Width: 1600
+  X: 60
+  Y: 30

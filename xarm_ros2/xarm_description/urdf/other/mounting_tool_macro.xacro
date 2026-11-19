@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <!--
+    UFACTORY Lite6 official base mounting plate (downloaded from ufactory.us/downloads,
+    Lite6_Mounting_Tool.STEP, converted to STL and rescaled mm->m).
+    Plate is 0.190 x 0.130 x 0.005 m, centered in X/Y, bottom face at its own local z=0,
+    top face at z=0.005. It bolts directly under link_base, between the robot and the table.
+  -->
+  <xacro:macro name="mounting_tool_macro" params="prefix:='' attach_to:='link_base'">
+
+    <link name="${prefix}mounting_tool_link">
+      <xacro:common_link_visual
+        mesh_filename="other/mounting_tool/visual/mounting_tool"
+        origin_xyz="0 0 0"
+        origin_rpy="0 0 0"
+        material_name="${prefix}Silver" />
+      <xacro:common_link_collision
+        mesh_filename="other/mounting_tool/collision/mounting_tool"
+        origin_xyz="0 0 0"
+        origin_rpy="0 0 0" />
+    </link>
+
+    <joint name="${prefix}joint_mounting_tool" type="fixed">
+      <!-- plate's top face (local z=0.005) sits flush against link_base's bottom face (link_base's local z=0) -->
+      <origin xyz="0 0 -0.005" rpy="0 0 0" />
+      <parent link="${attach_to}" />
+      <child link="${prefix}mounting_tool_link" />
+    </joint>
+
+  </xacro:macro>
+</robot>

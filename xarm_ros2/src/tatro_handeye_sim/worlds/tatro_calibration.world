@@ -1,0 +1,161 @@
+<?xml version="1.0" ?>
+<!--
+  tatro_calibration.world
+  ══════════════════════════════════════════════════════════════════════════
+  Gazebo Classic world for TATRO eye-in-hand hand-eye calibration.
+
+  Coordinate system
+  ─────────────────
+  The robot is spawned at world position (-0.2, -0.5, 1.021) with yaw=π/2.
+  This maps:
+    link_base X (forward)  →  world  +Y
+    link_base Y (right)    →  world  −X
+    link_base Z (up)       →  world  +Z
+
+  Key positions derived from workspace_params.yaml / tatro_workspace_publisher.py
+  ─────────────────────────────────────────────────────────────────────────
+  Table 85×85 cm; robot centred in Y; corners (link_base): TL(-9,-42.5)
+  TR(-9,+42.5) BR(+76,+42.5) BL(+76,-42.5) cm
+  Table surface z (link_base): −0.005 m   →  world z: 1.016 m
+  Table centre   (link_base): (0.335, 0.000, −0.005)  →  world: (−0.200, −0.165, 1.016)
+  ArUco marker ID=0 (0.15×0.15 m) at table centre (world): (−0.200, −0.165, 1.016)
+-->
+<sdf version="1.4">
+  <world name="tatro_calibration">
+
+    <include><uri>model://ground_plane</uri></include>
+    <include><uri>model://sun</uri></include>
+
+    <!-- ── Overhead fill light (reduces shadow harshness for ArUco detection) -->
+    <light name="overhead_fill" type="directional">
+      <cast_shadows>false</cast_shadows>
+      <pose>0 0 5 0 0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.0 0.0 0.0 1</specular>
+      <direction>0 0 -1</direction>
+    </light>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         TATRO TABLE
+         Slab 85×85×2 cm  +  four cylindrical legs 70 cm × Ø 4 cm
+         All positions in Gazebo world frame.
+         ══════════════════════════════════════════════════════════════════ -->
+
+    <!-- Table slab: centre (world) = (−0.200, −0.165, 1.006) -->
+    <model name="tatro_table_slab">
+      <static>true</static>
+      <pose>-0.200 -0.165 1.006 0 0 0</pose>
+      <link name="slab_link">
+        <collision name="slab_col">
+          <geometry><box><size>0.85 0.85 0.020</size></box></geometry>
+          <surface>
+            <friction><ode><mu>0.9</mu><mu2>0.9</mu2></ode></friction>
+          </surface>
+        </collision>
+        <visual name="slab_vis">
+          <geometry><box><size>0.85 0.85 0.020</size></box></geometry>
+          <material>
+            <ambient>0.95 0.95 0.92 1</ambient>
+            <diffuse>0.95 0.95 0.92 1</diffuse>
+            <specular>0.05 0.05 0.05 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Leg TL (link_base −7, −40.5 cm) → world ( 0.205, −0.570, 0.646) -->
+    <model name="table_leg_tl">
+      <static>true</static>
+      <pose>0.205 -0.570 0.646 0 0 0</pose>
+      <link name="leg">
+        <collision name="col"><geometry><cylinder><radius>0.020</radius><length>0.700</length></cylinder></geometry></collision>
+        <visual name="vis">
+          <geometry><cylinder><radius>0.020</radius><length>0.700</length></cylinder></geometry>
+          <material><ambient>0.45 0.45 0.45 1</ambient><diffuse>0.45 0.45 0.45 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Leg TR (link_base −7, +40.5 cm) → world (−0.605, −0.570, 0.646) -->
+    <model name="table_leg_tr">
+      <static>true</static>
+      <pose>-0.605 -0.570 0.646 0 0 0</pose>
+      <link name="leg">
+        <collision name="col"><geometry><cylinder><radius>0.020</radius><length>0.700</length></cylinder></geometry></collision>
+        <visual name="vis">
+          <geometry><cylinder><radius>0.020</radius><length>0.700</length></cylinder></geometry>
+          <material><ambient>0.45 0.45 0.45 1</ambient><diffuse>0.45 0.45 0.45 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Leg BL (link_base +74, −40.5 cm) → world ( 0.205,  0.240, 0.646) -->
+    <model name="table_leg_bl">
+      <static>true</static>
+      <pose>0.205 0.240 0.646 0 0 0</pose>
+      <link name="leg">
+        <collision name="col"><geometry><cylinder><radius>0.020</radius><length>0.700</length></cylinder></geometry></collision>
+        <visual name="vis">
+          <geometry><cylinder><radius>0.020</radius><length>0.700</length></cylinder></geometry>
+          <material><ambient>0.45 0.45 0.45 1</ambient><diffuse>0.45 0.45 0.45 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Leg BR (link_base +74, +40.5 cm) → world (−0.605,  0.240, 0.646) -->
+    <model name="table_leg_br">
+      <static>true</static>
+      <pose>-0.605 0.240 0.646 0 0 0</pose>
+      <link name="leg">
+        <collision name="col"><geometry><cylinder><radius>0.020</radius><length>0.700</length></cylinder></geometry></collision>
+        <visual name="vis">
+          <geometry><cylinder><radius>0.020</radius><length>0.700</length></cylinder></geometry>
+          <material><ambient>0.45 0.45 0.45 1</ambient><diffuse>0.45 0.45 0.45 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ── Steel mounting plate 19×12×0.5 cm (X and Y swapped due to yaw=90°) -->
+    <!-- link_base (0,0,−0.0025) → world (−0.200, −0.500, 1.0185) -->
+    <!-- In world frame: plate depth (19 cm) is along world-Y; width (12 cm) along world-X -->
+    <model name="mounting_plate">
+      <static>true</static>
+      <pose>-0.200 -0.500 1.0185 0 0 0</pose>
+      <link name="plate_link">
+        <collision name="plate_col">
+          <geometry><box><size>0.120 0.190 0.005</size></box></geometry>
+        </collision>
+        <visual name="plate_vis">
+          <geometry><box><size>0.120 0.190 0.005</size></box></geometry>
+          <material>
+            <ambient>0.52 0.54 0.58 1</ambient>
+            <diffuse>0.52 0.54 0.58 1</diffuse>
+            <specular>0.3 0.3 0.3 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         ArUco MARKER  ID=0  size=0.15 m × 0.15 m
+         Placed at table geometric centre, flat on table surface.
+         World position: (−0.200, −0.165, 1.0165)
+         Generate texture first:  python3 scripts/generate_aruco_texture.py
+         Set GAZEBO_MODEL_PATH to include the models/ directory.
+         ══════════════════════════════════════════════════════════════════ -->
+    <include>
+      <uri>model://aruco_marker_0</uri>
+      <name>aruco_marker_0</name>
+      <pose>-0.200 -0.165 1.0165 0 0 0</pose>
+    </include>
+
+    <!-- ── Physics (match existing xarm_gazebo/worlds/table.world) ─────── -->
+    <physics type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+      <gravity>0 0 0</gravity>
+    </physics>
+
+  </world>
+</sdf>

@@ -1,0 +1,20 @@
+parameters:
+  name: tataro_handeye_5
+  calibration_type: eye_in_hand
+  robot_base_frame: link_base
+  robot_effector_frame: link_eef
+  tracking_base_frame: camera_color_optical_frame
+  tracking_marker_frame: charuco_board_frame
+  freehand_robot_movement: true
+  move_group_namespace: /
+  move_group: manipulator
+transform:
+  translation:
+    x: 0.051101401427196005
+    y: 0.028693535908137734
+    z: -0.1284227248065275
+  rotation:
+    x: 0.005756294096868871
+    y: 0.00997466389007684
+    z: -0.7041176640420131
+    w: 0.7099899198880003

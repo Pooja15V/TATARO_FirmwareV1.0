@@ -1,0 +1,63 @@
+<?xml version="1.0" ?>
+<robot name="marker_plate">
+  
+  <!-- 
+    Marker Plate with ArUco ID 0 centered on the top surface
+    
+    IMPORTANT: The marker is placed at:
+    - Position: (0.00, 3.00, 0.00) mm
+    - Size: 203 x 203 mm
+    - On the XZ plane (horizontal surface)
+  -->
+
+  <link name="marker_plate_base">
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+
+    <!-- Visual: The CAD mesh with texture applied -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <!-- Point to the converted DAE/mesh file -->
+        <mesh filename="file:///path/to/meshes/PJ_MRK_-_3_3.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="marker_material">
+        <!-- Reference to material with ArUco texture -->
+      </material>
+    </visual>
+
+    <!-- Collision: Use the same mesh -->
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:///path/to/meshes/PJ_MRK_-_3_3.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Optional: Marker frame for easy reference in robot code -->
+  <link name="aruco_marker_frame">
+    <!-- This frame is at the center of the ArUco marker on the plate -->
+  </link>
+
+  <!-- Fixed joint: connects marker frame to the plate at its center -->
+  <joint name="marker_frame_joint" type="fixed">
+    <parent link="marker_plate_base"/>
+    <child link="aruco_marker_frame"/>
+    <!-- Position of marker center on the plate (in meters if STEP is in mm) -->
+    <!-- X=0.00, Y=0.003 (3mm above plate surface), Z=0.00 -->
+    <origin xyz="0 0.003 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- 
+    Material Definition with ArUco Texture
+    
+    To use this in Gazebo, you need:
+    1. Convert aruco_marker_id0_500px.png to a texture format
+    2. Set up proper UV mapping on the top face
+    3. Configure material scripts in Gazebo
+  -->
+  
+</robot>

@@ -1,0 +1,218 @@
+#!/usr/bin/env python3
+"""
+Position TCP 10 cm directly above ArUco marker center.
+
+Detects an ArUco marker in the camera frame, transforms its center position
+to the robot base frame (link_base), and moves the TCP directly above it
+(10 cm vertical offset). TCP orientation is preserved from the current pose.
+
+This is a simple positioning move—no approach trajectory, no home position,
+no marker-relative orientation. The robot moves directly from its current
+pose to the hover position and stops.
+
+Requires the full TATARO runtime stack:
+  ros2 launch tataro_packages tatro_runtime.launch.py robot_ip:=192.168.1.150
+
+Run:
+  ros2 run tataro_packages tataro_touch_marker_centre
+  ros2 run tataro_packages tataro_touch_marker_centre --ros-args -p hover_m:=0.10
+"""
+
+import sys
+import time
+
+import rclpy
+from rclpy.node import Node
+import tf2_ros
+import rclpy.duration
+import rclpy.time
+
+try:
+    from xarm.wrapper import XArmAPI
+except ImportError:
+    sys.exit(
+        "[ERROR] xarm Python SDK not found.\n"
+        "        pip install xarm-python-sdk"
+    )
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Configuration
+# ─────────────────────────────────────────────────────────────────────────────
+
+ROBOT_IP        = '192.168.1.150'
+SPEED           = 50      # mm/s  — slow for a tool-approach move
+MVACC           = 100     # mm/s²
+DEFAULT_HOVER_M = 0.10    # 100 mm above the marker surface along its normal
+MIN_Z_M         = 0.05    # 50 mm — refuse to command TCP below this in link_base
+
+BASE_FRAME   = 'link_base'
+MARKER_FRAME = 'aruco_marker_frame'
+# HOME_POSE removed — robot moves directly from current pose to hover position
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ROS2 node (TF listener only)
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TFNode(Node):
+    def __init__(self):
+        super().__init__('tataro_touch_marker_centre')
+        self.declare_parameter('hover_m',      DEFAULT_HOVER_M)
+        self.declare_parameter('marker_frame', MARKER_FRAME)
+        self.tf_buffer   = tf2_ros.Buffer()
+        self.tf_listener = tf2_ros.TransformListener(self.tf_buffer, self)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Helpers
+# ─────────────────────────────────────────────────────────────────────────────
+
+def lookup_marker(node: TFNode, timeout_s: float = 6.0, marker_frame: str = MARKER_FRAME):
+    """Block until marker TF is available. Returns TransformStamped or None."""
+    deadline = node.get_clock().now() + rclpy.duration.Duration(seconds=timeout_s)
+    while node.get_clock().now() < deadline:
+        try:
+            return node.tf_buffer.lookup_transform(
+                BASE_FRAME, marker_frame,
+                rclpy.time.Time(),
+                timeout=rclpy.duration.Duration(seconds=0.5))
+        except (tf2_ros.LookupException,
+                tf2_ros.ExtrapolationException,
+                tf2_ros.ConnectivityException):
+            rclpy.spin_once(node, timeout_sec=0.1)
+    return None
+
+
+def compute_hover_position(marker_transform, hover_offset_m: float):
+    """
+    Extract marker center position and apply vertical offset.
+
+    Returns only the position (x_mm, y_mm, z_mm) to be used with the current
+    TCP orientation. Does not compute target orientation—preserves current
+    TCP roll, pitch, yaw angles.
+
+    Args:
+        marker_transform: TransformStamped from TF lookup in link_base frame
+        hover_offset_m: Vertical offset above marker (e.g., 0.10 m = 100 mm)
+
+    Returns:
+        (x_mm, y_mm, z_mm) - marker center position with vertical offset applied
+    """
+    tr = marker_transform.transform.translation
+
+    # Extract marker center position in base frame (meters → millimeters)
+    marker_pos_x = tr.x * 1000.0
+    marker_pos_y = tr.y * 1000.0
+    marker_pos_z = tr.z * 1000.0
+
+    # Apply upward offset from marker surface
+    target_z = marker_pos_z + (hover_offset_m * 1000.0)
+
+    return (marker_pos_x, marker_pos_y, target_z)
+
+
+def connect(ip: str) -> XArmAPI:
+    print(f"[CONNECT] {ip} … ", end='', flush=True)
+    arm = XArmAPI(ip, is_radian=False)
+    code, state = arm.get_state()
+    if code != 0:
+        sys.exit(f"\n[ERROR] Cannot reach robot at {ip} (code={code})")
+    arm.clean_error()
+    arm.clean_warn()
+    arm.motion_enable(enable=True)
+    arm.set_mode(0)
+    arm.set_state(0)
+    time.sleep(0.5)
+    _, pos = arm.get_position()
+    xyz = [round(v, 1) for v in pos[:3]]
+    print(f"OK   XYZ={xyz}")
+    return arm
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Main
+# ─────────────────────────────────────────────────────────────────────────────
+
+def main():
+    rclpy.init()
+    node        = TFNode()
+    hover_m     = node.get_parameter('hover_m').value
+    marker_frame = node.get_parameter('marker_frame').value
+
+    # Warm up the TF buffer
+    print("[TF] Filling buffer …")
+    for _ in range(30):
+        rclpy.spin_once(node, timeout_sec=0.1)
+
+    print(f"[TF] Looking up {marker_frame} in {BASE_FRAME} …")
+    t = lookup_marker(node, timeout_s=6.0, marker_frame=marker_frame)
+
+    if t is None:
+        print(f"\n[ERROR] {marker_frame} not found in TF tree. Check:")
+        print("  • ArUco detector node is running (aruco_detector_node.py)")
+        print("  • The marker is visible in the camera feed")
+        print("  • The hand-eye calibration TF publisher is running")
+        node.destroy_node()
+        rclpy.shutdown()
+        sys.exit(1)
+
+    # Get marker translation
+    tr     = t.transform.translation
+
+    # Compute hover position with Z inversion (calibration fix)
+    # Invert Z BEFORE adding hover offset
+    marker_x = tr.x * 1000.0
+    marker_y = tr.y * 1000.0
+    marker_z_inverted = -tr.z * 1000.0  # Invert the calibration sign flip
+
+    target_x = marker_x
+    target_y = marker_y
+    target_z = marker_z_inverted + (hover_m * 1000.0)  # Add hover offset AFTER inverting
+    age_ms = (node.get_clock().now().nanoseconds
+              - (t.header.stamp.sec * 1_000_000_000
+                 + t.header.stamp.nanosec)) / 1e6
+
+    print(f"\n[MARKER]  {marker_frame}  in {BASE_FRAME}  (TF age {age_ms:.0f} ms)")
+    print(f"  x={tr.x*1000:+7.1f}  y={tr.y*1000:+7.1f}  z={tr.z*1000:+7.1f} mm")
+
+    print(f"\n[TARGET]  Hover position (marker center + {hover_m*1000:.0f} mm vertical offset)")
+    print(f"  x={target_x:+7.1f}  y={target_y:+7.1f}  z={target_z:+7.1f} mm")
+
+    # Safety floor
+    if target_z / 1000.0 < MIN_Z_M:
+        print(f"\n[SAFETY] Computed z = {target_z:.1f} mm is below the "
+              f"{MIN_Z_M*1000:.0f} mm minimum. Aborting.")
+        node.destroy_node()
+        rclpy.shutdown()
+        sys.exit(1)
+
+    # Connect to robot
+    arm = connect(ROBOT_IP)
+
+    # For this setup: Robot mounted on table, looking DOWN at marker on table surface
+    # Optimal orientation: roll=180°, pitch=0°, yaw=0° (gripper points downward)
+    # This avoids arm twisting and provides natural downward approach
+    target_roll = 180.0
+    target_pitch = 0.0
+    target_yaw = 0.0
+
+    print(f"\n[MOVE] Moving to hover position above marker … ", end='', flush=True)
+    print(f"(roll={target_roll:.1f}°, pitch={target_pitch:.1f}°, yaw={target_yaw:.1f}°)", flush=True)
+    code = arm.set_position(target_x, target_y, target_z,
+                             target_roll, target_pitch, target_yaw,
+                             speed=SPEED, mvacc=MVACC, wait=True)
+    if code == 0:
+        print("arrived ✓")
+        print(f"\n[SUCCESS] TCP is {hover_m*1000:.0f} mm above marker center at:")
+        print(f"  Position: x={target_x:.1f}, y={target_y:.1f}, z={target_z:.1f} mm")
+        print(f"  Orientation: roll={target_roll:.1f}°  pitch={target_pitch:.1f}°  yaw={target_yaw:.1f}°")
+    else:
+        print(f"FAIL (code={code})")
+
+    arm.disconnect()
+    node.destroy_node()
+    rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()

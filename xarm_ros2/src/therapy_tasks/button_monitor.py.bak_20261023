@@ -1,0 +1,100 @@
+#!/usr/bin/env python3
+"""
+TATARO Therapy — Button state publisher node.
+
+Connects to the XIAO BLE device (see xarm_ros2/src/sensors/read_button_ble.py
+for the confirmed-working reference implementation this mirrors) and
+publishes a std_msgs/Bool on /tataro/button_pressed:
+
+  True  — the device just sent a "GREEN" status notification (its only
+          signal for a button press; there is no dedicated button
+          characteristic, see read_button_ble.py's comment)
+  False — any other status value
+
+This node only reports raw hardware state. Edge detection ("ignore repeated
+press notifications while the button remains pressed") is the therapy FSM's
+job, not this node's — perception/monitoring and state management are kept
+separate on purpose.
+"""
+
+import asyncio
+import threading
+
+import rclpy
+from rclpy.executors import ExternalShutdownException
+from rclpy.node import Node
+from std_msgs.msg import Bool
+
+from bleak import BleakClient, BleakScanner
+
+DEVICE_NAME = "xiao-tataro-task1"
+STATUS_UUID = "19B10002-E8F2-537E-4F6C-D104768A1214"
+PRESSED_STATUS_VALUE = "GREEN"
+BUTTON_TOPIC = '/tataro/button_pressed'
+
+
+class ButtonMonitorNode(Node):
+    def __init__(self):
+        super().__init__('tataro_button_monitor')
+        self._pub = self.create_publisher(Bool, BUTTON_TOPIC, 10)
+        self._loop = asyncio.new_event_loop()
+        self._thread = threading.Thread(target=self._run_ble_loop, daemon=True)
+        self._thread.start()
+
+    def _on_notify(self, _handle, data: bytearray) -> None:
+        value = data.decode("utf-8")
+        self.get_logger().info(f"STATUS: {value}")
+        msg = Bool()
+        msg.data = bool(value == PRESSED_STATUS_VALUE)
+        self._pub.publish(msg)
+
+    def _run_ble_loop(self) -> None:
+        asyncio.set_event_loop(self._loop)
+        self._loop.run_until_complete(self._ble_main())
+
+    async def _find_device(self):
+        # Mirrors read_button_ble.py's discover()-then-filter approach
+        # exactly, rather than BleakScanner.find_device_by_name()'s
+        # convenience wrapper -- kept identical to what is confirmed working
+        # on this hardware.
+        devices = await BleakScanner.discover()
+        for device in devices:
+            if device.name == DEVICE_NAME:
+                return device
+        return None
+
+    async def _ble_main(self) -> None:
+        while rclpy.ok():
+            try:
+                self.get_logger().info(f"Scanning for {DEVICE_NAME} ...")
+                device = await self._find_device()
+                if device is None:
+                    self.get_logger().warn(f"{DEVICE_NAME} not found — retrying ...")
+                    await asyncio.sleep(3.0)
+                    continue
+
+                async with BleakClient(device) as client:
+                    await client.start_notify(STATUS_UUID, self._on_notify)
+                    self.get_logger().info("Connected — publishing button state.")
+                    while rclpy.ok() and client.is_connected:
+                        await asyncio.sleep(1.0)
+            except Exception as exc:
+                self.get_logger().warn(f"BLE connection lost ({exc}) — retrying ...")
+                await asyncio.sleep(3.0)
+
+
+def main():
+    rclpy.init()
+    node = ButtonMonitorNode()
+    try:
+        rclpy.spin(node)
+    except (KeyboardInterrupt, ExternalShutdownException):
+        pass
+    finally:
+        node.destroy_node()
+        if rclpy.ok():
+            rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()

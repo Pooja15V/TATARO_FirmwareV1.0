@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lerobot_robot_lite6"
+version = "0.1.0"
+description = "LeRobot robot plugin for the TATARO UFactory Lite6 + Gripper Lite (Cartesian control)"
+requires-python = ">=3.12"
+dependencies = ["lerobot", "xarm-python-sdk", "scipy", "numpy"]
+
+[tool.setuptools]
+packages = ["lerobot_robot_lite6"]

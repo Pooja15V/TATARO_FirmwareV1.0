@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>tatro_handeye_sim</name>
+  <version>1.0.0</version>
+  <description>
+    TATRO eye-in-hand hand-eye calibration simulation.
+    Gazebo world (85×85 cm TATRO table + ArUco marker ID=0 at table centre),
+    15-pose calibration automation script, and EasyHandEye2 integration.
+  </description>
+
+  <maintainer email="thamizpooja1514@gmail.com">pooja</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_python</buildtool_depend>
+
+  <depend>rclpy</depend>
+  <depend>geometry_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>moveit_msgs</depend>
+  <depend>tf2_ros</depend>
+
+  <exec_depend>gazebo_ros</exec_depend>
+  <exec_depend>xarm_moveit_config</exec_depend>
+  <exec_depend>xarm_gazebo</exec_depend>
+  <exec_depend>aruco_ros</exec_depend>
+  <exec_depend>tatro_workspace_config</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+
+  <!-- Optional: required only for automated sample collection -->
+  <exec_depend condition="$ROS_DISTRO == 'humble'">easy_handeye2</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

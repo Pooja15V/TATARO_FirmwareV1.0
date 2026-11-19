@@ -1,0 +1,20 @@
+parameters:
+  name: tataro_handeye_1
+  calibration_type: eye_in_hand
+  robot_base_frame: link_base
+  robot_effector_frame: uflite_gripper_link
+  tracking_base_frame: camera_rgb_optical_frame
+  tracking_marker_frame: aruco_marker_frame
+  freehand_robot_movement: true
+  move_group_namespace: /
+  move_group: manipulator
+transform:
+  translation:
+    x: 0.18869291798784774
+    y: -0.1159733555691639
+    z: 0.3450027937019228
+  rotation:
+    x: 0.1184142134668243
+    y: 0.007217339074879092
+    z: 0.8019870421355576
+    w: 0.5854423697618496

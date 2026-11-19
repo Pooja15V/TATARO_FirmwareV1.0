@@ -1,0 +1,4 @@
+lerobot
+xarm-python-sdk
+scipy
+numpy

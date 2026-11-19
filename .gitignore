@@ -1,0 +1,14 @@
+# colcon build output
+build/
+install/
+log/
+# Python
+__pycache__/
+*.pyc
+.venv/
+# LeRobot datasets live in their own repo: github.com/Pooja15V/TATARO_LeRobot_Dataset
+lerobot_tataro/datasets/
+# never commit secrets / private notes
+.env
+*.pem
+*_chat.md

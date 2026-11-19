@@ -1,0 +1,63 @@
+TATARO CV Pipeline - Launch Instructions
+=========================================
+
+Prerequisites
+-------------
+- ROS2 Humble sourced
+- xarm_ros2 workspace built and sourced
+- D455 camera connected via USB
+
+  cd /home/pooja/TATRO/TATRO_Program_files/TATARO_FirmwareV1.0/xarm_ros2
+  source /opt/ros/humble/setup.bash
+  source install/setup.bash
+
+
+1. Camera Launch
+----------------
+Start the RealSense driver with depth alignment and sync enabled.
+Run in a dedicated terminal and keep it running:
+
+  ros2 launch realsense2_camera rs_launch.py tf_publish_rate:=0.0 enable_sync:=true align_depth.enable:=true
+
+
+2. Marker Detection (standalone test)
+--------------------------------------
+Detects all ArUco 7x7 markers in view and draws axes + IDs.
+Use this to verify markers 51, 52, 53 are visible and detected:
+python3 src/computer_vision/TATARO_CV_MarkerDetection_7x7.py
+  
+
+  Press 'q' to quit.
+
+
+3. Table Cropping (standalone test)
+-------------------------------------
+Detects markers 51, 52, 53 to establish the table frame.
+Shows three windows: camera feed, masked table, warped top-down view.
+Use this to verify the table boundary is correctly detected:
+
+  python3 src/computer_vision/TATARO_CV_TableCropping_with_ARUCO_7x7.py
+
+  Press 'q' to quit.
+
+
+4. Pipeline V1.0 (full system)
+--------------------------------
+Phase 1: Locks the table frame using markers 51, 52, 53.
+Phase 2: Continuously tracks marker 40 and outputs its pose in robot base frame.
+
+  python3 src/computer_vision/TATARO_CV_PipelineV1.0.py
+
+  Press 'q' to quit.
+
+  Marker layout (5cm black pattern, 1.5cm white border):
+    51 - table BOTTOM-LEFT corner
+    52 - table BOTTOM-RIGHT corner
+    53 - table TOP-LEFT corner
+    40 - object/gripper marker (tracked in Phase 2)
+
+
+
+5. 
+./run_pipeline_with_fastdds.sh
+

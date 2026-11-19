@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <!--
+    ArUco marker ID=0, 15 cm × 15 cm × 1 mm
+    The texture (aruco_marker_0.png) is applied to the top face (+Z) of the box.
+    Generate the PNG before first use:
+        cd <package_root>
+        python3 scripts/generate_aruco_texture.py
+    Add the models/ directory to GAZEBO_MODEL_PATH.
+  -->
+  <model name="aruco_marker_0">
+    <static>true</static>
+    <link name="marker_link">
+
+      <!-- Thin flat box: 15 cm × 15 cm × 1 mm -->
+      <visual name="marker_face">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box><size>0.150 0.150 0.001</size></box>
+        </geometry>
+        <material>
+          <script>
+            <uri>model://aruco_marker_0/materials/scripts</uri>
+            <uri>model://aruco_marker_0/materials/textures</uri>
+            <name>ArUcoMarker0/Surface</name>
+          </script>
+        </material>
+      </visual>
+
+      <collision name="marker_col">
+        <geometry>
+          <box><size>0.150 0.150 0.001</size></box>
+        </geometry>
+      </collision>
+
+      <inertial>
+        <mass>0.001</mass>
+        <inertia>
+          <ixx>1e-7</ixx><iyy>1e-7</iyy><izz>1e-7</izz>
+          <ixy>0</ixy><ixz>0</ixz><iyz>0</iyz>
+        </inertia>
+      </inertial>
+
+    </link>
+  </model>
+</sdf>

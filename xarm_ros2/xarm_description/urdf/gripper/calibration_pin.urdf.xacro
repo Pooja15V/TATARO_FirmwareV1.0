@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="calibration_pin">
+
+  <!-- Calibration pin macro for ArUco hand-eye calibration -->
+  <!-- Attaches calibration pin to the end-effector for visualization and detection -->
+  <xacro:macro name="calibration_pin_urdf" params="prefix:='' attach_to:='' attach_xyz:='0 0 0' attach_rpy:='0 0 0'">
+
+    <!-- Calibration pin link -->
+    <link name="${prefix}calibration_pin_link">
+      <inertial>
+        <origin xyz="0 0 0.044" rpy="0 0 0" />
+        <mass value="0.01" />
+        <inertia
+          ixx="1e-6" ixy="0" ixz="0"
+          iyy="1e-6" iyz="0" izz="1e-6" />
+      </inertial>
+
+      <!-- Visual representation -->
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://xarm_description/meshes/CalibrationPin.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="CalibrationPin">
+          <color rgba="0.2 0.6 0.8 1.0" />
+        </material>
+      </visual>
+
+      <!-- Collision geometry -->
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://xarm_description/meshes/CalibrationPin.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Joint to attach calibration pin to end-effector (or gripper) -->
+    <xacro:unless value="${attach_to == ''}">
+      <joint name="${prefix}calibration_pin_joint" type="fixed">
+        <parent link="${attach_to}" />
+        <child link="${prefix}calibration_pin_link" />
+        <origin xyz="${attach_xyz}" rpy="${attach_rpy}" />
+      </joint>
+    </xacro:unless>
+
+  </xacro:macro>
+
+</robot>

@@ -1,0 +1,136 @@
+# TATARO — Progressive Reach Therapy Configuration
+# ====================================================
+#
+# Poses are given DIRECTLY in the robot base frame (link_tcp), in mm/deg --
+# [x_mm, y_mm, z_mm, roll_deg, pitch_deg, yaw_deg] -- exactly as read off the
+# real robot with `arm.get_position()` (or `ros2 run tf2_ros tf2_echo
+# link_base link_tcp`) while jogging it to each target. This replaced an
+# earlier table_xy_cm + table->robot-transform scheme: real calibration
+# happens by jogging the physical robot and recording its live TCP pose, so
+# storing that pose directly (rather than re-deriving it through a table
+# transform) is what actually matches the calibration workflow.
+#
+# A level can be either:
+#   - a single fixed pose  (`pose_mm_deg: [...]`), held for every repetition, or
+#   - a `grid` of points sharing one `fixed` pose/orientation (see Level 1).
+#     Each repetition presents a different grid point, drawn at random with
+#     no repeats until all points have been used once (a fresh shuffle then
+#     starts for the next cycle) -- adds trial-to-trial reach variability
+#     without changing the level's overall difficulty.
+#
+# ── SAFETY ──────────────────────────────────────────────────────────────────
+# Calibration is gated PER POSE, not globally:
+#   - `grasp_pose.calibrated`  gates the GRASP_OBJECT step.
+#   - each level's `calibrated`  gates that level's MOVE_TO_LEVEL step.
+# The FSM refuses to move to any pose whose `calibrated` flag is false. This
+# lets individually-verified poses (e.g. Level 1 below) run while everything
+# still marked PLACEHOLDER stays hard-blocked. Before flipping any
+# `calibrated: false` to `true`:
+#   1. Jog the robot (e.g. with TATRO_PositionControl_GUI.py) to every pose
+#      that flag covers.
+#   2. Confirm it is reachable, collision-free, and clinically appropriate.
+#   3. Replace the PLACEHOLDER numbers with the verified `get_position()` reading.
+#   4. Only then set that pose's `calibrated: true`.
+
+session:
+  robot_ip: "192.168.1.150"
+  on_complete: hold          # hold: stay at final level | restart: loop back to level 1
+  table_init_timeout_s: 60.0
+  reps_per_level: 10         # successful button presses required before advancing a level
+                             # (override per level with a `reps:` key if a level needs a different count)
+
+motion:
+  speed_reach_mm_s: 200.0    # TCP speed while presenting/advancing levels
+  speed_grasp_mm_s: 60.0     # slower, deliberate speed for the grasp approach
+  mvacc_mm_s2: 1000.0
+  hover_offset_mm: 60.0      # transit height above the higher of start/target before moving XY
+
+gripper:
+  close_wait_s: 1.0
+  open_wait_s: 1.0
+  tcp_load_open_kg: 0.277
+  tcp_load_open_com_mm: [0, 0, 30]
+  tcp_load_closed_kg: 0.35
+  tcp_load_closed_com_mm: [0, 0, 40]
+
+# grasp_pose:
+#   name: "Object holder"
+#   calibrated: false                          # PLACEHOLDER — not yet measured on real hardware
+#   pose_mm_deg: [0.0, 0.0, 0.0, 180.0, 0.0, 0.0]
+#   lift_z_offset_mm: 100.0                    # straight-up lift after closing the gripper
+
+# grasp_pose:
+#   name: "Object holder"
+#   calibrated: true
+#   pose_mm_deg: [-7.7, -187.8, 53.6, -155.2, -84.6, -22.1]
+#   lift_z_offset_mm: 100.0
+
+grasp_pose:
+  name: "Pose 1 — Object holder"
+  calibrated: true
+  pose_mm_deg: [261.6, -227.3, 55.4, -50.9, -86.2, -130.9]
+  lift_z_offset_mm: 44.6    # 55.4 + 44.6 = 100.0 mm
+
+# Progressive reach levels — presented in order; `reps_per_level` (or a
+# level's own `reps:`) Released->Pressed button presses advance to the next.
+levels:
+  - name: "Level 1 — Full lateral/vertical reach envelope (near depth)"
+    clinical_goal: "Initial reach, with built-in trial-to-trial variability"
+    calibrated: true                         # VERIFIED on real robot
+    # x_mm was originally 472.0 -- that value produced repeated
+    # ControllerError/stop-state faults on real hardware (see session notes)
+    # and was replaced with 440.0, which tested cleanly for a full home ->
+    # X-only move. RPY and the Y/Z grid/center values below are unchanged
+    # from the original 472mm calibration -- only X moved.
+    fixed:
+      x_mm: 440.0
+      roll_deg: 0.1
+      pitch_deg: -83.0
+      yaw_deg: -179.8
+    # Center/reference pose -- the full (X, orientation, Y, Z) sequence to
+    # this exact point has been tested end-to-end on real hardware and
+    # confirmed working (tataro_level1_grid_test --ros-args -p center_only:=true).
+    center: {y_mm: 0.9, z_mm: 197.3}
+    # Grid bounds tightened after real-hardware testing: the original
+    # Y:+-273.3 / Z:89.5-520.9 rectangle had its 4 corners (extreme Y AND
+    # extreme Z together -- old P1/P3/P7/P9) rejected by the controller as
+    # kinematically unreachable, even though each axis's extreme alone was
+    # fine (e.g. extreme Y at center Z worked). Narrowed to Y:+-240 /
+    # Z:100-400 -- ALL 9 points below, corners included, confirmed reachable
+    # on real hardware via tataro_level1_grid_test (14/14 consecutive moves
+    # OK, shuffle-bag cycling verified live).
+    grid:                                    # y_mm/z_mm vary; x/orientation from `fixed` above
+      - {name: P1, y_mm: -240.0, z_mm: 100.0}
+      - {name: P2, y_mm: 0.0,    z_mm: 100.0}
+      - {name: P3, y_mm: 240.0,  z_mm: 100.0}
+      - {name: P4, y_mm: -240.0, z_mm: 197.3}
+      - {name: P5, y_mm: 0.0,    z_mm: 197.3}
+      - {name: P6, y_mm: 240.0,  z_mm: 197.3}
+      - {name: P7, y_mm: -240.0, z_mm: 400.0}
+      - {name: P8, y_mm: 0.0,    z_mm: 400.0}
+      - {name: P9, y_mm: 240.0,  z_mm: 400.0}
+
+  - name: "Level 2 — TBD"
+    clinical_goal: "TBD"
+    calibrated: false                        # PLACEHOLDER — not yet measured on real hardware
+    pose_mm_deg: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+  - name: "Level 3 — TBD"
+    clinical_goal: "TBD"
+    calibrated: false                        # PLACEHOLDER — not yet measured on real hardware
+    pose_mm_deg: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+  - name: "Level 4 — TBD"
+    clinical_goal: "TBD"
+    calibrated: false                        # PLACEHOLDER — not yet measured on real hardware
+    pose_mm_deg: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+  - name: "Level 5 — TBD"
+    clinical_goal: "TBD"
+    calibrated: false                        # PLACEHOLDER — not yet measured on real hardware
+    pose_mm_deg: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+  - name: "Level 6 — TBD"
+    clinical_goal: "TBD"
+    calibrated: false                        # PLACEHOLDER — not yet measured on real hardware
+    pose_mm_deg: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]

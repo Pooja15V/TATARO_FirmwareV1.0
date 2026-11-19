@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>tataro_gazebo_environment</name>
+  <version>1.0.0</version>
+  <description>
+    TATARO rehabilitation workstation Gazebo digital twin.
+    Complete simulation environment for upper-limb rehabilitation robot with xArm Lite6,
+    RealSense D435i camera, ArUco marker, and MoveIt2 integration.
+  </description>
+
+  <maintainer email="thamizpooja1514@gmail.com">TATARO Team</maintainer>
+  <license>MIT</license>
+
+  <author>TATARO Rehabilitation Robotics</author>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>gazebo_ros</exec_depend>
+  <exec_depend>gazebo_msgs</exec_depend>
+  <exec_depend>ros2launch</exec_depend>
+  <exec_depend>xarm_description</exec_depend>
+  <exec_depend>xarm_moveit_config</exec_depend>
+  <exec_depend>moveit_ros_move_group</exec_depend>
+  <exec_depend>moveit_simple_controller_manager</exec_depend>
+  <exec_depend>tf2</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>cv_bridge</exec_depend>
+  <exec_depend>image_transport</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>opencv-python</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

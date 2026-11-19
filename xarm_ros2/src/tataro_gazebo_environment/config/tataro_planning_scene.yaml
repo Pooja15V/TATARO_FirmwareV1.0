@@ -1,0 +1,81 @@
+# TATARO Workstation MoveIt2 Planning Scene Configuration
+# Defines collision objects for the rehabilitation environment
+
+planning_scene_name: tataro_workstation
+
+# Collision objects for the environment
+collision_objects:
+  - name: workstation_table
+    type: box
+    pose:
+      x: 0.335
+      y: 0.0
+      z: -0.005
+      roll: 0.0
+      pitch: 0.0
+      yaw: 0.0
+    dimensions:
+      length: 0.85  # X
+      width: 0.85   # Y
+      height: 0.02  # Z
+    collision_enabled: true
+    description: "Square tabletop (0.85m x 0.85m)"
+
+  - name: mounting_plate
+    type: box
+    pose:
+      x: 0.335
+      y: 0.0
+      z: -0.0075
+      roll: 0.0
+      pitch: 0.0
+      yaw: 0.0
+    dimensions:
+      length: 0.19  # X
+      width: 0.12   # Y
+      height: 0.005 # Z
+    collision_enabled: true
+    description: "Steel mounting plate"
+
+  - name: aruco_marker
+    type: box
+    pose:
+      x: 0.335
+      y: 0.0
+      z: -0.0045
+      roll: 0.0
+      pitch: 0.0
+      yaw: 0.0
+    dimensions:
+      length: 0.15  # X
+      width: 0.15   # Y
+      height: 0.001 # Z
+    collision_enabled: true
+    allow_contact: true  # Robot can contact marker
+    description: "ArUco fiducial marker (Dict4x4, ID=0)"
+
+# Robot workspace bounds (for planning)
+workspace:
+  min_x: -0.5
+  max_x: 1.0
+  min_y: -0.5
+  max_y: 0.5
+  min_z: -0.3
+  max_z: 1.0
+
+# Marker configurations for motion planning
+markers:
+  - id: 0
+    name: aruco_marker
+    frame: marker_frame
+    size: 0.15
+    approach_distance: 0.05
+    contact_distance: 0.001
+
+# Camera configuration for marker detection
+camera:
+  frame: camera_color_optical_frame
+  fov_horizontal: 69.0  # degrees
+  fov_vertical: 42.0    # degrees
+  near_plane: 0.1
+  far_plane: 10.0

@@ -1,0 +1,229 @@
+<?xml version="1.0" ?>
+<mujoco model="env_810a182b-d950-4b0e-a9af-66faab2589c7">
+  <compiler angle="radian" autolimits="true"/>
+  <option integrator="implicitfast" noslip_iterations="10"/>
+  <default>
+    <default class="robot">
+      <default class="motor">
+        <joint/>
+        <motor gear="1"/>
+      </default>
+      <default class="visual">
+        <geom contype="0" conaffinity="0" group="2"/>
+      </default>
+      <default class="collision">
+        <geom condim="3" contype="1" conaffinity="1" priority="1" group="3" solref="0.02 1" solimp="0.7 0.9 0.02" friction="0.6 0.005 0.005"/>
+      </default>
+    </default>
+  </default>
+  <asset>
+    <material name="72434eab22ee480f9a27f8db2c1a551c__White" rgba="1.0 1.0 1.0 1.0"/>
+    <material name="72434eab22ee480f9a27f8db2c1a551c__Silver" rgba="0.753 0.753 0.753 1.0"/>
+    <material name="procedural__tataro_room_ground__0_material" rgba="0.8431372549019608 0.8666666666666667 0.8980392156862745 1.0"/>
+    <material name="procedural__tataro_rehab_table__0_material" rgba="0.62 0.64 0.66 1.0"/>
+    <material name="procedural__tataro_rehab_table__1_material" rgba="0.20 0.22 0.25 1.0"/>
+    <material name="procedural__tataro_rehab_table__2_material" rgba="0.20 0.22 0.25 1.0"/>
+    <material name="procedural__tataro_rehab_table__3_material" rgba="0.20 0.22 0.25 1.0"/>
+    <material name="procedural__tataro_rehab_table__4_material" rgba="0.20 0.22 0.25 1.0"/>
+    <material name="aruco_marker_51_material" rgba="1.0 1.0 1.0 1.0"/>
+    <material name="aruco_marker_52_material" rgba="1.0 1.0 1.0 1.0"/>
+    <material name="aruco_marker_53_material" rgba="1.0 1.0 1.0 1.0"/>
+    <material name="d455_stand_black_material" rgba="0.14 0.15 0.18 1.0"/>
+    <material name="d455_boom_aluminum_material" rgba="0.78 0.80 0.83 1.0"/>
+    <material name="d455_body_silver_material" rgba="0.76 0.78 0.81 1.0"/>
+    <material name="d455_lens_dark_material" rgba="0.10 0.11 0.13 1.0"/>
+    <material name="gripper_mod_finger_material" rgba="0.22 0.26 0.33 1.0"/>
+    <material name="intoject_housing_material" rgba="0.15 0.18 0.23 1.0"/>
+    <material name="intoject_dome_material" rgba="0.88 0.91 0.94 1.0"/>
+    <material name="cyberwave_ground_plane_material" rgba="0.3 0.3 0.3 1.0"/>
+    <mesh name="link_base" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/lite6/visual/link_base.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="link_base_1" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/lite6/collision/link_base.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="link1" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/lite6/visual/link1.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="link1_1" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/lite6/collision/link1.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="link2" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/lite6/visual/link2.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="link2_1" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/lite6/collision/link2.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="link3" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/lite6/visual/link3.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="link3_1" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/lite6/collision/link3.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="link4" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/lite6/visual/link4.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="link4_1" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/lite6/collision/link4.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="link5" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/lite6/visual/link5.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="link5_1" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/lite6/collision/link5.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="link6" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/lite6/visual/link6.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="link6_1" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/lite6/collision/link6.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="d435_with_cam_stand" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/camera/realsense/visual/d435_with_cam_stand.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="d435_with_cam_stand_1" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/camera/realsense/collision/d435_with_cam_stand.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="shell" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/gripper/lite/visual/shell.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="finger1" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/gripper/lite/visual/finger1.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="finger2" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/gripper/lite/visual/finger2.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="finger1_mod" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/gripper/lite/visual/finger1_mod.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="finger2_mod" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/gripper/lite/visual/finger2_mod.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="intoject_housing" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/gripper/lite/visual/intoject_housing.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="intoject_dome" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/gripper/lite/visual/intoject_dome.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="mounting_tool" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/other/mounting_tool/visual/mounting_tool.stl" scale="1.0 1.0 1.0"/>
+    <mesh name="mounting_tool_1" file="/home/pooja/TATARO_Reasoning_Execution/public/meshes/other/mounting_tool/collision/mounting_tool.stl" scale="1.0 1.0 1.0"/>
+  </asset>
+  <worldbody>
+    <body name="72434eab22ee480f9a27f8db2c1a551c__link_base" pos="0.0095 0.308 0.9349999998323619" quat="0.7071067811865476 0.0 0.0 -0.7071067811865475">
+      <inertial mass="1.65393501783165" pos="-0.00829544579053192 3.26357432323433e-05 0.0631194584987089" fullinertia="0.0050012 0.0053836 0.0033203 2.1e-06 -0.0003513 1.5e-06"/>
+      <geom group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="mesh" mesh="link_base" material="72434eab22ee480f9a27f8db2c1a551c__White"/>
+      <geom group="3" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="collision" type="mesh" mesh="link_base_1" contype="2" conaffinity="1"/>
+      <body name="72434eab22ee480f9a27f8db2c1a551c__link1" pos="0.0 0.0 0.2435" quat="1.0 0.0 0.0 0.0">
+        <joint name="72434eab22ee480f9a27f8db2c1a551c__joint1" type="hinge" axis="0.0 0.0 1.0" range="-6.283185307179586 6.283185307179586" damping="1.0" frictionloss="1.0"/>
+        <inertial mass="1.411" pos="-0.00036 0.04195 -0.0025" fullinertia="0.0014516400000000001 0.0008872999999999999 0.00131993 -1.24e-05 6.7e-06 -0.0001255"/>
+        <geom group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="mesh" mesh="link1" material="72434eab22ee480f9a27f8db2c1a551c__White"/>
+        <geom group="3" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="collision" type="mesh" mesh="link1_1" contype="2" conaffinity="1"/>
+        <body name="72434eab22ee480f9a27f8db2c1a551c__link2" pos="0.0 0.0 0.0" quat="-0.5000036731949838 0.4999981633907021 0.5000018365958054 0.4999963267847773">
+          <joint name="72434eab22ee480f9a27f8db2c1a551c__joint2" type="hinge" axis="0.0 0.0 1.0" range="-2.61799 2.61799" damping="6.0" frictionloss="2.0"/>
+          <inertial mass="1.34" pos="0.179 0.0 0.0584" fullinertia="0.0015854 0.0056097 0.00485 6.766e-06 0.00115136 -1.1399999999999999e-06"/>
+          <geom group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="mesh" mesh="link2" material="72434eab22ee480f9a27f8db2c1a551c__White"/>
+          <geom group="3" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="collision" type="mesh" mesh="link2_1" contype="2" conaffinity="1"/>
+          <body name="72434eab22ee480f9a27f8db2c1a551c__link3" pos="0.2002 0.0 0.0" quat="-2.5973434669646147e-06 -0.707105482506466 -0.7071080798547033 -2.597353007557415e-06">
+            <joint name="72434eab22ee480f9a27f8db2c1a551c__joint3" type="hinge" axis="0.0 0.0 1.0" range="-0.061087 5.235988" damping="1.2" frictionloss="1.6"/>
+            <inertial mass="0.953" pos="0.072 -0.0357 -0.001" fullinertia="0.0008861 0.0015784999999999998 0.00184677 0.00039286999999999997 -7.065999999999999e-05 2.4449999999999998e-05"/>
+            <geom group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="mesh" mesh="link3" material="72434eab22ee480f9a27f8db2c1a551c__White"/>
+            <geom group="3" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="collision" type="mesh" mesh="link3_1" contype="2" conaffinity="1"/>
+            <body name="72434eab22ee480f9a27f8db2c1a551c__link4" pos="0.087 -0.22761 0.0" quat="0.7071054825112363 0.7071080798594735 0.0 0.0">
+              <joint name="72434eab22ee480f9a27f8db2c1a551c__joint4" type="hinge" axis="0.0 0.0 1.0" range="-6.283185307179586 6.283185307179586" damping="1.0" frictionloss="1.0"/>
+              <inertial mass="1.284" pos="-0.002 -0.0285 -0.0813" fullinertia="0.003705 0.0030455 0.0015412999999999998 2e-06 -7.17e-06 0.00093188"/>
+              <geom group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="mesh" mesh="link4" material="72434eab22ee480f9a27f8db2c1a551c__White"/>
+              <geom group="3" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="collision" type="mesh" mesh="link4_1" contype="2" conaffinity="1"/>
+              <body name="72434eab22ee480f9a27f8db2c1a551c__link5" pos="0.0 0.0 0.0" quat="0.7071054825112363 0.7071080798594735 0.0 0.0">
+                <joint name="72434eab22ee480f9a27f8db2c1a551c__joint5" type="hinge" axis="0.0 0.0 1.0" range="-2.1642 2.1642" damping="1.0" frictionloss="1.0"/>
+                <inertial mass="0.804" pos="0.0 0.01 0.0019" fullinertia="0.0005667999999999999 0.0005076999999999999 0.00053 -6e-07 5.299999999999999e-06 4.8e-07"/>
+                <geom group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="mesh" mesh="link5" material="72434eab22ee480f9a27f8db2c1a551c__White"/>
+                <geom group="3" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="collision" type="mesh" mesh="link5_1" contype="2" conaffinity="1"/>
+                <body name="72434eab22ee480f9a27f8db2c1a551c__link6" pos="0.0 0.0625 0.0" quat="0.7071054825112363 -0.7071080798594735 0.0 0.0">
+                  <joint name="72434eab22ee480f9a27f8db2c1a551c__joint6" type="hinge" axis="0.0 0.0 1.0" range="-6.283185307179586 6.283185307179586" damping="1.0" frictionloss="1.0"/>
+                  <inertial mass="0.13" pos="0.0 -0.00194 -0.0102" fullinertia="7.726e-05 8.5665e-05 0.00014813999999999997 -1e-06 -4e-07 6e-07"/>
+                  <geom group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="mesh" mesh="link6" material="72434eab22ee480f9a27f8db2c1a551c__Silver"/>
+                  <geom group="3" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="collision" type="mesh" mesh="link6_1" contype="2" conaffinity="1"/>
+                  <body name="72434eab22ee480f9a27f8db2c1a551c__link_eef" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0"><body name="tataro_handeye_11_optical_frame" pos="0.0644231 -0.0296551 0.0270531" quat="0.6996711 0.0085666 -0.0026546 0.7144088"><camera name="wrist" pos="0 0 0" quat="0 1 0 0" fovy="43.3" resolution="640 480"/></body>
+                    <geom group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="mesh" mesh="d435_with_cam_stand" material="72434eab22ee480f9a27f8db2c1a551c__Silver"/>
+                    <geom group="3" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="collision" type="mesh" mesh="d435_with_cam_stand_1" contype="2" conaffinity="1"/>
+                    <body name="72434eab22ee480f9a27f8db2c1a551c__link_camera_stand" pos="0.0 0.0 0.003" quat="1.0 0.0 0.0 0.0">
+                      <body name="72434eab22ee480f9a27f8db2c1a551c__uflite_gripper_link" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0">
+                        <inertial mass="0.277" pos="0.0 0.0 0.03" fullinertia="0.00052193448 0.00036643776000000006 0.00028411336000000003 4.3535536000000006e-07 2.9402996000000003e-06 -1.2160300000000001e-05"/>
+                        <geom group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="mesh" mesh="shell" material="72434eab22ee480f9a27f8db2c1a551c__White"/>
+                        <geom group="3" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="collision" type="mesh" mesh="shell" contype="2" conaffinity="1"/>
+                        <geom name="gripper_intoject_housing" group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="mesh" mesh="intoject_housing" material="intoject_housing_material"/>
+                        <geom name="gripper_intoject_dome" group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="mesh" mesh="intoject_dome" material="intoject_dome_material"/>
+                        <body name="72434eab22ee480f9a27f8db2c1a551c__uflite_finger1" pos="0.0 0.0 0.0543" quat="1.0 0.0 0.0 0.0">
+                          <joint name="72434eab22ee480f9a27f8db2c1a551c__finger_joint1" type="slide" axis="0.0 1.0 0.0" range="0.0 0.0089"/>
+                          <inertial mass="0.0163" pos="0.0 0.01 0.0086" fullinertia="1.6299999999999999e-06 1.63e-06 1.6299999999999999e-06 0.0 0.0 -3.1e-07"/>
+                          <geom name="finger1_visual_orig" group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="mesh" mesh="finger1" material="72434eab22ee480f9a27f8db2c1a551c__White"/>
+                          <geom name="finger1_visual_mod" group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="mesh" mesh="finger1_mod" material="gripper_mod_finger_material"/>
+                          <geom group="3" type="box" pos="0 0.0078 0.002" size="0.0085 0.0078 0.005" class="collision" contype="2" conaffinity="1"/><geom group="3" type="box" pos="0 0.0133 0.0175" size="0.0085 0.0021 0.0095" condim="4" solimp="0.95 0.99 0.001 0.5 2" solref="0.01 1" friction="2.5 0.5 0.1" contype="2" conaffinity="1"/>
+                        </body>
+                        <body name="72434eab22ee480f9a27f8db2c1a551c__uflite_finger2" pos="0.0 0.0 0.0543" quat="1.0 0.0 0.0 0.0">
+                          <joint name="72434eab22ee480f9a27f8db2c1a551c__finger_joint2" type="slide" axis="0.0 -1.0 0.0" range="0.0 0.0089" damping="0.2" armature="0.001"/>
+                          <inertial mass="0.0163" pos="0.0 -0.01 0.0086" fullinertia="1.6299999999999999e-06 1.63e-06 1.6299999999999999e-06 0.0 0.0 3.1e-07"/>
+                          <geom name="finger2_visual_orig" group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="mesh" mesh="finger2" material="72434eab22ee480f9a27f8db2c1a551c__White"/>
+                          <geom name="finger2_visual_mod" group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="mesh" mesh="finger2_mod" material="gripper_mod_finger_material"/>
+                          <geom group="3" type="box" pos="0 -0.0078 0.002" size="0.0085 0.0078 0.005" class="collision" contype="2" conaffinity="1"/><geom group="3" type="box" pos="0 -0.0133 0.0175" size="0.0085 0.0021 0.0095" condim="4" solimp="0.95 0.99 0.001 0.5 2" solref="0.01 1" friction="2.5 0.5 0.1" contype="2" conaffinity="1"/>
+                        </body>
+                        <body name="72434eab22ee480f9a27f8db2c1a551c__link_tcp" pos="0.0 0.0 0.0836" quat="1.0 0.0 0.0 0.0"><site name="tcp" pos="0 0 0" size="0.005" rgba="1 0 0 0.5" group="1"/></body>
+                      </body>
+                    </body>
+                    <body name="72434eab22ee480f9a27f8db2c1a551c__camera_link" pos="0.06746 -0.0175 0.0237" quat="4.329780281177467e-17 0.7071067811865476 -4.329780281177466e-17 0.7071067811865475">
+                      <body name="72434eab22ee480f9a27f8db2c1a551c__camera_depth_frame" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0">
+                        <body name="72434eab22ee480f9a27f8db2c1a551c__camera_depth_optical_frame" pos="0.0 0.0 0.0" quat="0.5000000000000001 -0.5 0.4999999999999999 -0.5">
+                          <camera name="72434eab22ee480f9a27f8db2c1a551c__d435i_depth" pos="0.0 0.0 0.0" quat="0.0 1.0 0.0 0.0" fovy="58.8"/>
+                        </body>
+                      </body>
+                      <body name="72434eab22ee480f9a27f8db2c1a551c__camera_color_frame" pos="0.0 0.015 0.0" quat="1.0 0.0 0.0 0.0">
+                        <body name="72434eab22ee480f9a27f8db2c1a551c__camera_color_optical_frame" pos="0.0 0.0 0.0" quat="0.5000000000000001 -0.5 0.4999999999999999 -0.5">
+                          <camera name="72434eab22ee480f9a27f8db2c1a551c__d435i_color" pos="0.0 0.0 0.0" quat="0.0 1.0 0.0 0.0" fovy="43.3"/>
+                        </body>
+                      </body>
+                      <body name="72434eab22ee480f9a27f8db2c1a551c__camera_left_ir_frame" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0">
+                        <body name="72434eab22ee480f9a27f8db2c1a551c__camera_left_ir_optical_frame" pos="0.0 0.0 0.0" quat="0.5000000000000001 -0.5 0.4999999999999999 -0.5"/>
+                      </body>
+                      <body name="72434eab22ee480f9a27f8db2c1a551c__camera_right_ir_frame" pos="0.0 -0.05 0.0" quat="1.0 0.0 0.0 0.0">
+                        <body name="72434eab22ee480f9a27f8db2c1a551c__camera_right_ir_optical_frame" pos="0.0 0.0 0.0" quat="0.5000000000000001 -0.5 0.4999999999999999 -0.5"/>
+                      </body>
+                    </body>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="72434eab22ee480f9a27f8db2c1a551c__mounting_tool_link" pos="0.0 0.0 -0.005" quat="1.0 0.0 0.0 0.0">
+        <geom group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="mesh" mesh="mounting_tool" material="72434eab22ee480f9a27f8db2c1a551c__Silver"/>
+        <geom group="3" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="collision" type="mesh" mesh="mounting_tool_1" contype="2" conaffinity="1"/>
+      </body>
+    </body>
+    <body name="procedural__tataro_room_ground__0" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0">
+      <geom group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="box" size="2.0 2.0 0.01" material="procedural__tataro_room_ground__0_material"/>
+      <geom group="3" name="procedural__tataro_room_ground__0_collision" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="collision" type="box" size="2.0 2.0 0.01" contype="1" conaffinity="1" friction="0.6 0.8 0.01"/>
+    </body>
+    <body name="procedural__tataro_rehab_table__0" pos="0.009499999999999991 -0.027000000000000003 0.9224999999999999" quat="1.0 0.0 0.0 0.0">
+      <geom group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="box" size="0.425 0.425 0.0075" material="procedural__tataro_rehab_table__0_material"/>
+      <geom group="3" name="procedural__tataro_rehab_table__0_collision" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="collision" type="box" size="0.425 0.425 0.0075" contype="1" conaffinity="1" friction="0.4 0.55 0.01"/>
+      <body name="procedural__tataro_rehab_table__1" pos="-0.395 -0.39499999999999996 -0.4599999999999999" quat="1.0 0.0 0.0 0.0">
+        <geom group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="box" size="0.03 0.03 0.4525" material="procedural__tataro_rehab_table__1_material"/>
+        <geom group="3" name="procedural__tataro_rehab_table__1_collision" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="collision" type="box" size="0.03 0.03 0.4525" contype="1" conaffinity="1" friction="0.4 0.55 0.01"/>
+      </body>
+      <body name="procedural__tataro_rehab_table__2" pos="-0.395 0.395 -0.4599999999999999" quat="1.0 0.0 0.0 0.0">
+        <geom group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="box" size="0.03 0.03 0.4525" material="procedural__tataro_rehab_table__2_material"/>
+        <geom group="3" name="procedural__tataro_rehab_table__2_collision" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="collision" type="box" size="0.03 0.03 0.4525" contype="1" conaffinity="1" friction="0.4 0.55 0.01"/>
+      </body>
+      <body name="procedural__tataro_rehab_table__3" pos="0.395 -0.39499999999999996 -0.4599999999999999" quat="1.0 0.0 0.0 0.0">
+        <geom group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="box" size="0.03 0.03 0.4525" material="procedural__tataro_rehab_table__3_material"/>
+        <geom group="3" name="procedural__tataro_rehab_table__3_collision" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="collision" type="box" size="0.03 0.03 0.4525" contype="1" conaffinity="1" friction="0.4 0.55 0.01"/>
+      </body>
+      <body name="procedural__tataro_rehab_table__4" pos="0.395 0.395 -0.4599999999999999" quat="1.0 0.0 0.0 0.0">
+        <geom group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="box" size="0.03 0.03 0.4525" material="procedural__tataro_rehab_table__4_material"/>
+        <geom group="3" name="procedural__tataro_rehab_table__4_collision" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="collision" type="box" size="0.03 0.03 0.4525" contype="1" conaffinity="1" friction="0.4 0.55 0.01"/>
+      </body>
+    </body>
+    <!-- ArUco 7x7 Corner Markers (5.0 cm marker + 1.5 cm white border = 8.0 cm x 8.0 cm outer square, half-size = 0.04 m) -->
+    <!-- ID 51: Bottom-Left corner along -ve Y axis of link_base (world -X, -Y corner) -->
+    <body name="aruco_marker_51" pos="-0.3755 -0.4120 0.9306" quat="1.0 0.0 0.0 0.0">
+      <geom name="aruco_marker_51_visual" group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="box" size="0.04 0.04 0.0006" material="aruco_marker_51_material"/>
+      <geom name="aruco_marker_51_collision" group="3" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="collision" contype="0" conaffinity="0" type="box" size="0.04 0.04 0.0006"/>
+    </body>
+    <!-- ID 52: Bottom-Right corner along +ve Y axis of link_base (world +X, -Y corner) -->
+    <body name="aruco_marker_52" pos="0.3945 -0.4120 0.9306" quat="1.0 0.0 0.0 0.0">
+      <geom name="aruco_marker_52_visual" group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="box" size="0.04 0.04 0.0006" material="aruco_marker_52_material"/>
+      <geom name="aruco_marker_52_collision" group="3" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="collision" contype="0" conaffinity="0" type="box" size="0.04 0.04 0.0006"/>
+    </body>
+    <!-- ID 53: Top-Left corner along -ve Y axis of link_base (world -X, +Y corner) -->
+    <body name="aruco_marker_53" pos="-0.3755 0.3580 0.9306" quat="1.0 0.0 0.0 0.0">
+      <geom name="aruco_marker_53_visual" group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="box" size="0.04 0.04 0.0006" material="aruco_marker_53_material"/>
+      <geom name="aruco_marker_53_collision" group="3" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="collision" contype="0" conaffinity="0" type="box" size="0.04 0.04 0.0006"/>
+    </body>
+    <!-- Overhead Intel RealSense D455 Camera & Floor-Standing Rear Extrusion Boom Stand -->
+    <body name="d455_overhead_stand" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0">
+      <geom name="d455_stand_floor_base" group="2" pos="0.0095 0.56 0.018" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="cylinder" size="0.16 0.008" material="d455_stand_black_material"/>
+      <geom name="d455_stand_pole" group="2" pos="0.0095 0.56 0.93" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="cylinder" size="0.013 0.93" material="d455_stand_black_material"/>
+      <geom name="d455_stand_clamp" group="2" pos="0.0095 0.56 1.835" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="box" size="0.022 0.022 0.022" material="d455_stand_black_material"/>
+      <geom name="d455_boom_arm" group="2" pos="0.0095 0.275 1.835" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="box" size="0.013 0.285 0.013" material="d455_boom_aluminum_material"/>
+      <body name="d455_camera_link" pos="0.0095 -0.027 1.812" quat="1.0 0.0 0.0 0.0">
+        <geom name="d455_bracket" group="2" pos="0.0 0.014 0.018" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="box" size="0.018 0.022 0.009" material="d455_stand_black_material"/>
+        <geom name="d455_housing" group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="box" size="0.062 0.0145 0.013" material="d455_body_silver_material"/>
+        <geom name="d455_front_glass" group="2" pos="0.0 0.0 -0.0132" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="box" size="0.058 0.0125 0.001" material="d455_lens_dark_material"/>
+        <camera name="d455_overhead_color" resolution="640 480" pos="0.0 0.0 -0.016" quat="0.0 0.0 0.0 1.0" fovy="52.0"/>
+        <camera name="d455_overhead_depth" resolution="640 480" pos="0.0 0.0 -0.016" quat="0.0 0.0 0.0 1.0" fovy="58.0"/>
+      </body>
+    </body>
+    <body name="cyberwave_ground_plane" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0">
+      <geom group="2" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="visual" contype="0" conaffinity="0" type="plane" size="0.0 0.0 0.5" material="cyberwave_ground_plane_material"/>
+      <geom group="3" name="cyberwave_ground_plane_collision" pos="0.0 0.0 0.0" quat="1.0 0.0 0.0 0.0" class="collision" type="plane" size="0.0 0.0 0.5" contype="1" conaffinity="1"/>
+    </body>
+  <light name="key" directional="true" castshadow="true" pos="1 2 5" dir="-0.183 -0.365 -0.913" diffuse="0.5 0.5 0.5" specular="0.1 0.1 0.1"/><light name="fill" directional="true" castshadow="false" pos="-1 -1 3" dir="0.302 0.302 -0.905" diffuse="0.25 0.25 0.25" specular="0 0 0"/><body name="cube_red" pos="-0.0505 0.0280 0.9450"><freejoint name="cube_red_joint"/><inertial mass="0.028" pos="0 0 0" diaginertia="4.2e-06 4.2e-06 4.2e-06"/><geom name="cube_red_geom" type="box" size="0.015 0.015 0.015" rgba="0.92 0.18 0.18 1" friction="0.85 0.01 0.005" condim="4"/></body><body name="target_bowl" pos="-0.2605 0.1800 0.9340"><geom name="bowl_base" type="cylinder" size="0.055 0.004" rgba="0.25 0.28 0.32 1"/></body><camera name="overhead" pos="-0.0268 -0.0819 1.8281" xyaxes="-0.99858 -0.05148 -0.01350 0.05273 -0.99140 -0.11977" fovy="63.61" resolution="640 480"/></worldbody>
+  <equality>
+    <joint joint1="72434eab22ee480f9a27f8db2c1a551c__finger_joint2" joint2="72434eab22ee480f9a27f8db2c1a551c__finger_joint1" polycoef="0.0 1.0 0 0 0"/>
+  </equality>
+  <actuator>
+    <position name="72434eab22ee480f9a27f8db2c1a551c__joint1_pos" joint="72434eab22ee480f9a27f8db2c1a551c__joint1" ctrlrange="-6.283185307179586 6.283185307179586" forcerange="-50.0 50.0" kp="680.0" dampratio="1.0"/>
+    <position name="72434eab22ee480f9a27f8db2c1a551c__joint2_pos" joint="72434eab22ee480f9a27f8db2c1a551c__joint2" ctrlrange="-2.61799 2.61799" forcerange="-50.0 50.0" kp="2180.0" dampratio="1.0"/>
+    <position name="72434eab22ee480f9a27f8db2c1a551c__joint3_pos" joint="72434eab22ee480f9a27f8db2c1a551c__joint3" ctrlrange="-0.061087 5.235988" forcerange="-32.0 32.0" kp="1020.0" dampratio="1.0"/>
+    <position name="72434eab22ee480f9a27f8db2c1a551c__joint4_pos" joint="72434eab22ee480f9a27f8db2c1a551c__joint4" ctrlrange="-6.283185307179586 6.283185307179586" forcerange="-32.0 32.0" kp="210.0" dampratio="1.0"/>
+    <position name="72434eab22ee480f9a27f8db2c1a551c__joint5_pos" joint="72434eab22ee480f9a27f8db2c1a551c__joint5" ctrlrange="-2.1642 2.1642" forcerange="-32.0 32.0" kp="190.0" dampratio="1.0"/>
+    <position name="72434eab22ee480f9a27f8db2c1a551c__joint6_pos" joint="72434eab22ee480f9a27f8db2c1a551c__joint6" ctrlrange="-6.283185307179586 6.283185307179586" forcerange="-20.0 20.0" kp="130.0" dampratio="1.0"/>
+    <position name="72434eab22ee480f9a27f8db2c1a551c__finger_joint1_pos" joint="72434eab22ee480f9a27f8db2c1a551c__finger_joint1" ctrlrange="0.0 0.0089" forcerange="-25.0 25.0" kp="800.0" dampratio="1.0"/>
+  </actuator>
+  <sensor/>
+<visual><headlight ambient="0.25 0.25 0.25" diffuse="0 0 0" specular="0 0 0"/></visual></mujoco>

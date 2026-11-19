@@ -1,0 +1,27 @@
+1. HOME pose (dataset joint angles -> sim TCP, link_base mm)
+   sim TCP (198.8, -1.0, 246.9)  vs  dataset ee (200, 0, 250)  -> off by 3.5 mm
+
+2. ArUco marker centres (link_base mm; real = detected in the 2026-11-10 overhead frame, mapped with the table->robot fit on the demos)
+   51: sim ( 720.0, -385.0)  real ( 690.6, -364.6)  diff (-29.4, +20.4) = 36 mm
+   52: sim ( 720.0,  385.0)  real ( 694.3,  356.7)  diff (-25.7, -28.3) = 38 mm
+   53: sim ( -50.0, -385.0)  real ( -56.9, -388.2)  diff ( -6.9,  -3.2) = 8 mm
+   (that map is fitted on cube positions x -64..442 mm and extrapolated to the far markers; better estimate:)
+   51: via fitted camera ( 705.1, -384.2)  diff to sim (-14.9,  +0.8) = 15 mm
+   52: via fitted camera ( 706.0,  369.2)  diff to sim (-14.0, -15.8) = 21 mm
+   53: via fitted camera ( -59.9, -385.7)  diff to sim ( -9.9,  -0.7) = 10 mm
+   distance 52-51: sim 770 mm, real 753 mm
+   distance 51-53: sim 770 mm, real 765 mm
+
+3. Demo cube positions (TCP x/y when the gripper closed), bowl
+   127 real demos (50 zone 2026-11-10, 77 cube001 2026-11-06): x -64..442, y -323..355 mm
+   inside the 250x250 zone: 78/127  (zone demos: 50/50)
+   bowl: sim centre (128, -270); demos release at (128, -270, z 60) every time
+   grasp height (TCP z): median 13.7 mm (5-95%: 8.7..19.0); sim table top -5.0 mm, 3 cm cube centre 10.0 mm
+
+4. Overhead camera
+   spec/export (d455_overhead_color): at (335, 0, 861) mm, looking straight down, fovy 52 deg
+   fitted on 53/54 demos (median reprojection 1.9 px, f fixed 387 px): at (390, -36, 893) mm, tilted 6.9 deg, image rotated -3.0 deg, fovy 63.6 deg  -> scene camera 'overhead'
+   marker centres in the 640x480 image (px): nominal sim | calibrated sim | real
+   51: ( 539,   21) | ( 492,   50) | ( 491,   57)   calibrated - real ( +1,  -7) px
+   52: ( 101,   21) | ( 143,   33) | ( 150,   40)   calibrated - real ( -7,  -7) px
+   53: ( 539,  459) | ( 459,  383) | ( 459,  386)   calibrated - real ( +0,  -4) px
