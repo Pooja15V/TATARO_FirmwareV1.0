@@ -318,6 +318,19 @@ class Skills:
         self.hover = None  # (p, rpy, cube estimate from overhead, wrist image)
         self.grasped = None  # (p, rpy, wrist pixel of the cube)
         self.state = "home"
+        self.debug_dir = None  # set by main(): extra overhead snapshots during place_in_bowl
+
+    def _debug_snap(self, tag):
+        """Save an overhead frame (where is the held cube?) - the 2026-11-18 run lost the cube between grasp and bowl."""
+        if self.debug_dir is None or self.dry:
+            return
+        try:
+            time.sleep(self.a.settle)
+            img = self.hw.image("overhead")
+            cv2.imwrite(str(self.debug_dir / f"place_{tag}.jpg"), cv2.cvtColor(img, cv2.COLOR_RGB2BGR))
+            self.log({"debug_snap": f"place_{tag}.jpg"})
+        except Exception as e:  # noqa: BLE001  diagnostics must never stop the run
+            print(f"    (debug snapshot {tag} failed: {e})")
 
     def _confirm(self, what):
         print(f"\n>>> {what}")
@@ -477,9 +490,12 @@ class Skills:
                              f"{by:.0f}) -> down to z {self.a.bin_z:.0f} -> open -> up"):
             return self._cancel()
         self.hw.move_around((bx, by, self.a.travel_z), rpy, self.a.speed, self.a.min_radius)
+        self._debug_snap("1_above_bowl")  # cube should be visible between the fingers here
         self.hw.move((bx, by, self.a.bin_z), rpy, self.a.slow)
+        self._debug_snap("2_before_open")
         self.hw.gripper(False, self.a.grip_wait)
         self.hw.move((bx, by, self.a.travel_z), rpy, self.a.speed)
+        self._debug_snap("3_after_open")
         self.state = "placed"
         if isinstance(self.hw, DryRun):
             self.hw.state = "placed"
@@ -633,6 +649,7 @@ def main():
     colour = colour_of(task)
     print(f"Task: {task}   (colour for blob snapping: {colour or 'none - points used as given'})")
     sk = Skills(hw, args, colour, log)
+    sk.debug_dir = out
     if args.local:
         n_saved = [0]
 

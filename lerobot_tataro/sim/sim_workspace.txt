@@ -1,0 +1,5 @@
+top-down workspace at z=15 mm: 0.352 m^2, x -90..430, y -425..425 mm, max radius 439 mm
+any-orientation reach at z=15 mm: 0.478 m^2, max radius 549 mm
+demo cube positions inside top-down workspace: 121/127  (any orientation: 127)
+250x250 zone covered by top-down workspace: 100%
+bowl centre (128, -270) top-down reachable: True
