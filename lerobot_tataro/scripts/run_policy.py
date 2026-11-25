@@ -63,6 +63,8 @@ def main():
                         "detected cube, else z is held at --guard-z (a fingertip landing on the cube trips C31); "
                         "0 = off")
     p.add_argument("--guard-z", type=float, default=40.0, help="descent guard height [mm]")
+    p.add_argument("--targets", default=None, metavar="X,Y;X,Y",
+                   help="placement targets in robot mm instead of the demo positions, e.g. '258,-33;268,35' (demos)")
     p.add_argument("--no-place", action="store_true",
                    help="no live placement view before each episode (use the terminal Enter prompt instead)")
     p.add_argument("--out", default=str(Path.home() / "lerobot_outputs" / "policy_runs"))
@@ -259,7 +261,11 @@ def main():
             if all(np.linalg.norm(q - u) > 15 for u in uniq):
                 uniq.append(np.asarray(q, float))
         targets = sorted(uniq, key=lambda q: np.linalg.norm(q - np.array([280.0, -60.0])))
-        print(f"Placement view: {len(targets)} demo cube positions as targets")
+        if args.targets:
+            targets = [np.array([float(v) for v in t.split(",")]) for t in args.targets.split(";") if t.strip()]
+            print(f"Placement view: {len(targets)} custom targets " + ", ".join(f"({t[0]:.0f}, {t[1]:.0f})" for t in targets))
+        else:
+            print(f"Placement view: {len(targets)} demo cube positions as targets")
     place = {"i": 0, "tested": {}}
     OUT_COL = {"success": (0, 200, 0), "missed": (0, 0, 255)}
 
